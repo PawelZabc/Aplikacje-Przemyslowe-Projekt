@@ -1,12 +1,8 @@
 package com.projekt.kiosk.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Id;
 
 @Builder
 @NoArgsConstructor
@@ -18,6 +14,11 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE, generator = "ingredient_seq")
+    @SequenceGenerator(
+            name = "ingredient_seq",
+            sequenceName = "ingredient_seq",
+            allocationSize = 1
+    )
     private Integer id;
 
     private String name;
