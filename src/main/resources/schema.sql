@@ -1,7 +1,22 @@
 DROP TABLE IF EXISTS extras;
 
 CREATE TABLE extras (
-                        id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                        name VARCHAR(50) NOT NULL,
-                        price_cents INTEGER NOT NULL CHECK (price_cents >= 0)
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    price_cents INTEGER NOT NULL CHECK (price_cents >= 0)
+);
+
+DROP TABLE IF EXISTS ingredients;
+
+CREATE TABLE ingredients (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE products (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    price_cents INTEGER NOT NULL CHECK (price_cents >= 0)
 );
