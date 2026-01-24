@@ -1,7 +1,8 @@
-package com.projekt.kiosk.services;
+package com.projekt.kiosk.services.inpl;
 
 import com.projekt.kiosk.domain.IngredientEntity;
 import com.projekt.kiosk.repositories.IngredientRepository;
+import com.projekt.kiosk.services.IngredientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class IngredientServiceInpl implements IngredientService {
+public class IngredientServiceImpl implements IngredientService {
 
     private IngredientRepository ingredientRepository;
 
-    public IngredientServiceInpl(IngredientRepository ingredientRepository) {
+    public IngredientServiceImpl(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
 

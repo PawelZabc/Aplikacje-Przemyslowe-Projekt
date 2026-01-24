@@ -21,6 +21,7 @@ public class IngredientEntity {
     )
     private Integer id;
 
+    @Column(nullable = false, length = 50)
     private String name;
 
 }
