@@ -10,7 +10,7 @@ import lombok.*;
 @Data
 @Entity
 @Table(name = "ingredients")
-public class Ingredient {
+public class IngredientEntity {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE, generator = "ingredient_seq")

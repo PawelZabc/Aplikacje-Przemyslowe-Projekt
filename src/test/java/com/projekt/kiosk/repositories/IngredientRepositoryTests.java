@@ -1,7 +1,7 @@
 package com.projekt.kiosk.repositories;
 
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.Ingredient;
+import com.projekt.kiosk.domain.IngredientEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -36,9 +36,9 @@ public class IngredientRepositoryTests {
 
     @Test
     public void testSaveIngredient() {
-        Ingredient ingredient = TestDataUtil.createTestIngredientA();
+        IngredientEntity ingredient = TestDataUtil.createTestIngredientA();
         ingredientRepository.save(ingredient);
-        Optional<Ingredient> result= ingredientRepository.findById(1);
+        Optional<IngredientEntity> result= ingredientRepository.findById(1);
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(ingredient);
 
@@ -47,38 +47,36 @@ public class IngredientRepositoryTests {
 
     @Test
     public void testFindAll(){
-        Ingredient ingredientA = TestDataUtil.createTestIngredientA();
+        IngredientEntity ingredientA = TestDataUtil.createTestIngredientA();
         ingredientRepository.save(ingredientA);
-        Ingredient ingredientB = TestDataUtil.createTestIngredientB();
+        IngredientEntity ingredientB = TestDataUtil.createTestIngredientB();
         ingredientRepository.save(ingredientB);
-        Ingredient ingredientC = TestDataUtil.createTestIngredientC();
+        IngredientEntity ingredientC = TestDataUtil.createTestIngredientC();
         ingredientRepository.save(ingredientC);
 
-        Iterable<Ingredient> result = ingredientRepository.findAll();
+        Iterable<IngredientEntity> result = ingredientRepository.findAll();
         assertThat(result)
                 .hasSize(3).containsExactly(ingredientA,ingredientB,ingredientC);
     }
 
     @Test
     public void testUpdate(){
-        Ingredient ingredientA = TestDataUtil.createTestIngredientA();
+        IngredientEntity ingredientA = TestDataUtil.createTestIngredientA();
         ingredientRepository.save(ingredientA);
         ingredientA.setName("updated name");
         ingredientRepository.save(ingredientA);
-        Optional<Ingredient> result= ingredientRepository.findById(1);
+        Optional<IngredientEntity> result= ingredientRepository.findById(1);
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(ingredientA);
     }
 
     @Test
     public void testDeleteIngredient() {
-        Ingredient ingredient = TestDataUtil.createTestIngredientA();
+        IngredientEntity ingredient = TestDataUtil.createTestIngredientA();
         ingredientRepository.save(ingredient);
         ingredientRepository.deleteById(ingredient.getId());
-        Optional<Ingredient> result= ingredientRepository.findById(ingredient.getId());
+        Optional<IngredientEntity> result= ingredientRepository.findById(ingredient.getId());
         assertThat(result).isNotPresent();
-
-
     }
 
 }

@@ -1,28 +1,28 @@
 package com.projekt.kiosk;
 
-import com.projekt.kiosk.domain.Ingredient;
+import com.projekt.kiosk.domain.IngredientEntity;
 
 public final class TestDataUtil {
-    public static Ingredient createTestIngredientA() {
-        return Ingredient.builder()
+    public static IngredientEntity createTestIngredientA() {
+        return IngredientEntity.builder()
                 .name("Cheese")
                 .build();
     }
 
-    public static Ingredient createTestIngredientB() {
-        return Ingredient.builder()
+    public static IngredientEntity createTestIngredientB() {
+        return IngredientEntity.builder()
                 .name("Tomato")
                 .build();
     }
 
-    public static Ingredient createTestIngredientC() {
-        return Ingredient.builder()
+    public static IngredientEntity createTestIngredientC() {
+        return IngredientEntity.builder()
                 .name("Lettuce")
                 .build();
     }
 
-    public static Ingredient createTestIngredientD() {
-        return Ingredient.builder()
+    public static IngredientEntity createTestIngredientD() {
+        return IngredientEntity.builder()
                 .name("Onion")
                 .build();
     }
