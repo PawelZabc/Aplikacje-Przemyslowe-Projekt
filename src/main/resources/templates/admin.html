@@ -1,12 +1,24 @@
-<h1>Admin Panel</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin panel</title>
+    <meta charset="UTF-8">
+</head>
+<body>
 
-<a href="/admin/products/new">Add Product</a>
+<h1>Panel administratora</h1>
 
-<table>
-    <tr th:each="p : ${products}">
-        <td th:text="${p.name}"></td>
-        <td>
-            <a th:href="@{/admin/products/edit/{id}(id=${p.id})}">Edit</a>
-        </td>
-    </tr>
-</table>
+<p>Zalogowano jako ADMIN</p>
+
+<ul>
+    <li><a th:href="@{/admin/products}">Produkty</a></li>
+    <li><a th:href="@{/admin/extras}">Dodatki</a></li>
+    <li><a th:href="@{/admin/ingredients}">Składniki</a></li>
+</ul>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Wyloguj</button>
+</form>
+
+</body>
+</html>

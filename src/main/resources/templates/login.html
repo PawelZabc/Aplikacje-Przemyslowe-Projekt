@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin login</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h2>Panel administratora</h2>
+
+<form th:action="@{/login}" method="post">
+    <div>
+        <label>Hasło administratora</label><br/>
+        <input type="password" name="password" required />
+    </div>
+
+    <!-- username ukryty -->
+    <input type="hidden" name="username" value="admin"/>
+
+    <br/>
+    <button type="submit">Zaloguj</button>
+</form>
+
+<br/>
+<a th:href="@{/}">⬅ Powrót do strony głównej</a>
+
+<div th:if="${param.error}">
+    <p style="color:red;">Nieprawidłowe hasło</p>
+</div>
+
+</body>
+</html>
