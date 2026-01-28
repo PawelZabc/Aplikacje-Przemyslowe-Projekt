@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS product_extras;
 DROP TABLE IF EXISTS extras;
 DROP TABLE IF EXISTS ingredients;
 DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS daily_order_counter;
 
 DROP SEQUENCE IF EXISTS ingredient_seq;
 DROP SEQUENCE IF EXISTS product_seq;
@@ -58,7 +59,7 @@ CREATE TABLE product_extras (
 
 CREATE TABLE orders (
                         id SERIAL PRIMARY KEY,
-                        order_number VARCHAR(20) NOT NULL UNIQUE,
+                        order_number VARCHAR(20) NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
                         total_price_cents INTEGER NOT NULL CHECK (total_price_cents >= 0)
 );
@@ -82,4 +83,9 @@ CREATE TABLE order_item_extras (
                                    order_item_id INTEGER NOT NULL REFERENCES order_items(id) ON DELETE CASCADE,
                                    extra_name VARCHAR(50) NOT NULL,
                                    price_cents INTEGER NOT NULL CHECK (price_cents >= 0)
+);
+
+CREATE TABLE daily_order_counter (
+                                     order_date DATE PRIMARY KEY,
+                                     last_number INTEGER NOT NULL
 );

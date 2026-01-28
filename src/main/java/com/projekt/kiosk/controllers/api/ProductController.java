@@ -1,9 +1,11 @@
-package com.projekt.kiosk.controllers;
+package com.projekt.kiosk.controllers.api;
 
 import com.projekt.kiosk.domain.ProductEntity;
+import com.projekt.kiosk.dtos.ProductDetailsDto;
 import com.projekt.kiosk.dtos.ProductDto;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.services.ProductService;
+import com.projekt.kiosk.services.inpl.ProductDetailsService;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,15 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductDetailsService productDetailsService;
     private final Mapper<ProductEntity, ProductDto> productMapper;
 
     public ProductController(ProductService productService,
-                             Mapper<ProductEntity, ProductDto> productMapper) {
+                             Mapper<ProductEntity, ProductDto> productMapper,
+                             ProductDetailsService productDetailsService) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.productDetailsService = productDetailsService;
     }
 
     @GetMapping("/products")
@@ -78,6 +83,11 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("products/details/{id}")
+    public ResponseEntity<ProductDetailsDto> getProductDetails(@PathVariable Integer id) {
+        return ResponseEntity.ok(productDetailsService.getProductDetails(id));
     }
 }
 

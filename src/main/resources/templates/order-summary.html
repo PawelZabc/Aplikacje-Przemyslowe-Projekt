@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Summary</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="p-4 text-center">
+
+<h1>Thank you!</h1>
+
+<h2>Your order number:</h2>
+<div class="display-1 fw-bold text-success"
+     th:text="${order.orderNumber}">#001</div>
+
+<p class="mt-3">
+    Total: <strong th:text="${order.totalPriceCents / 100.0} + ' zł'"></strong>
+</p>
+
+<hr/>
+
+<div th:each="item : ${order.items}">
+    <h4 th:text="${item.productName}"></h4>
+    <p>Qty: <span th:text="${item.quantity}"></span></p>
+
+    <ul>
+        <li th:each="ing : ${item.removedIngredients}">
+            ❌ <span th:text="${ing.ingredientName}"></span>
+        </li>
+        <li th:each="extra : ${item.addedExtras}">
+            ➕ <span th:text="${extra.extraName}"></span>
+            (+<span th:text="${extra.priceCents / 100.0}"></span> zł)
+        </li>
+    </ul>
+</div>
+
+<a href="/" class="btn btn-primary btn-lg mt-4">
+    Back to start
+</a>
+
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu</title>
+</head>
+<body>
+
+<h1>Menu</h1>
+
+<div th:each="product : ${products}" class="card m-2 p-2">
+    <h4 th:text="${product.name}"></h4>
+    <p th:text="${product.priceCents / 100.0} + ' zł'"></p>
+
+    <a th:href="@{/product/{id}(id=${product.id})}"
+       class="btn btn-primary">
+        Customize
+    </a>
+</div>
+
+</body>
+</html>

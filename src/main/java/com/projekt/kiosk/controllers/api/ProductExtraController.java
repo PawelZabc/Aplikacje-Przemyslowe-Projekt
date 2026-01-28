@@ -1,4 +1,4 @@
-package com.projekt.kiosk.controllers;
+package com.projekt.kiosk.controllers.api;
 
 import com.projekt.kiosk.domain.ProductExtraEntity;
 import com.projekt.kiosk.dtos.ProductExtraDto;

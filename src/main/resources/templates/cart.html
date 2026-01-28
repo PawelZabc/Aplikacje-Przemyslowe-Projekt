@@ -1,0 +1,20 @@
+<h1>Your Cart</h1>
+
+<div th:each="item, stat : ${cart.items}">
+    <h4 th:text="${item.productName}"></h4>
+    <p>Qty: <span th:text="${item.quantity}"></span></p>
+    <p th:text="${item.itemTotalCents / 100.0} + ' zł'"></p>
+
+    <a th:href="@{/cart/edit/{idx}(idx=${stat.index})}">Edit</a>
+    <a th:href="@{/cart/remove/{idx}(idx=${stat.index})}">Remove</a>
+</div>
+
+
+<!--<a href="/checkout" class="btn btn-primary">Checkout</a>-->
+<form th:action="@{/checkout}" method="post">
+    <button type="submit" class="btn btn-success btn-lg">
+        Checkout
+    </button>
+</form>
+
+<a th:href="@{/menu}" class="btn btn-secondary mt-3">Add more</a>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Cart Item</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="p-4">
+
+<h1>Edit Item: <span th:text="${item.productName}"></span></h1>
+
+<form th:action="@{/cart/edit/{idx}(idx=${itemIndex})}" method="post">
+    <div class="mb-3">
+        <label for="quantity" class="form-label">Quantity:</label>
+        <input type="number" min="1" th:value="${item.quantity}" id="quantity" name="quantity" class="form-control"/>
+    </div>
+
+    <h4>Remove Ingredients</h4>
+    <div th:each="ingredient : ${product.ingredients}" class="form-check">
+        <input class="form-check-input" type="checkbox"
+               th:id="'remove-' + ${ingredient.id}"
+               th:name="removedIngredientIds"
+               th:value="${ingredient.id}"
+               th:checked="${#lists.contains(item.removedIngredients, ingredient)}">
+        <label class="form-check-label" th:for="'remove-' + ${ingredient.id}"
+               th:text="${ingredient.name}"></label>
+    </div>
+
+    <h4>Add Extras</h4>
+    <div th:each="extra : ${product.extras}" class="form-check">
+        <input class="form-check-input" type="checkbox"
+               th:id="'extra-' + ${extra.id}"
+               th:name="extraIds"
+               th:value="${extra.id}"
+               th:checked="${#lists.contains(item.addedExtras, extra)}">
+        <label class="form-check-label" th:for="'extra-' + ${extra.id}"
+               th:text="${extra.name + ' (+ ' + (extra.priceCents / 100.0) + ' zł)'}"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Update Item</button>
+    <a th:href="@{/cart}" class="btn btn-secondary mt-3">Cancel</a>
+</form>
+
+
+</body>
+</html>

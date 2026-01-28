@@ -1,0 +1,12 @@
+<h1>Admin Panel</h1>
+
+<a href="/admin/products/new">Add Product</a>
+
+<table>
+    <tr th:each="p : ${products}">
+        <td th:text="${p.name}"></td>
+        <td>
+            <a th:href="@{/admin/products/edit/{id}(id=${p.id})}">Edit</a>
+        </td>
+    </tr>
+</table>
