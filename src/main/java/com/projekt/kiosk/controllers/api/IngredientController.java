@@ -2,78 +2,186 @@ package com.projekt.kiosk.controllers.api;
 
 import com.projekt.kiosk.domain.IngredientEntity;
 import com.projekt.kiosk.dtos.IngredientDto;
+import com.projekt.kiosk.exceptions.ResourceNotFoundException;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.services.IngredientService;
-import lombok.extern.java.Log;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@Log
+@Slf4j
+@RequestMapping("/api/v1/ingredients")
 public class IngredientController {
 
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
+    private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
-    private Mapper<IngredientEntity,IngredientDto> ingredientMapper;
-
-    public IngredientController(IngredientService ingredientService,Mapper<IngredientEntity,IngredientDto> ingredientMapper) {
-        this.ingredientMapper = ingredientMapper;
+    public IngredientController(IngredientService ingredientService,
+                                Mapper<IngredientEntity, IngredientDto> ingredientMapper) {
         this.ingredientService = ingredientService;
+        this.ingredientMapper = ingredientMapper;
     }
 
-    @GetMapping(path = "/ingredients")
-    public List<IngredientEntity> getIngredient(){
-        return ingredientService.readAll();
+    @Operation(summary = "Odczytaj wszystkie składniki",
+            description = "Odczytuje listę wszystkich składników")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista składników zwrócona poprawnie")
+    })
+    @GetMapping
+    public List<IngredientEntity> getIngredients() {
+        List<IngredientEntity> ingredients = ingredientService.readAll();
+        log.info("GET /api/v1/ingredients - sukces, liczba składników: {}", ingredients.size());
+        return ingredients;
     }
 
 
-    @PostMapping(path = "/ingredients")
-    public ResponseEntity<IngredientDto> createIngredient(@RequestBody final IngredientDto ingredient){
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
+    @Operation(summary = "Utwórz nowy składnik",
+            description = "Tworzy nowy składnik na podstawie przekazanego DTO")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Składnik utworzony"),
+            @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe")
+    })
+    @PostMapping
+    public ResponseEntity<IngredientDto> createIngredient(@RequestBody IngredientDto ingredientDto) {
+
+        if (ingredientDto.getName() == null || ingredientDto.getName().isBlank()) {
+            log.warn("POST /api/v1/ingredients - niepoprawne dane: brak nazwy");
+            throw new IllegalArgumentException("Name cannot be null or blank");
+        }
+
+        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredientDto);
         IngredientEntity createdIngredient = ingredientService.save(ingredientEntity);
-        log.info("Ingredient created " + ingredient.toString());
-        return new ResponseEntity<>(ingredientMapper.mapTo(createdIngredient), HttpStatus.CREATED);
-    }
-    @GetMapping(path="/ingredients/{id}")
-    public ResponseEntity<IngredientDto> getIngredientById(@PathVariable("id") Integer id){
-        Optional<IngredientEntity> ingredient = this.ingredientService.readOne(id);
-        return ingredient.map(ing -> {
-            IngredientDto ingredientDto = ingredientMapper.mapTo(ing);
-            return new ResponseEntity<>(ingredientDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        log.info("POST /api/v1/ingredients - sukces, utworzono składnik id={}",
+                createdIngredient.getId());
+
+        return new ResponseEntity<>(
+                ingredientMapper.mapTo(createdIngredient),
+                HttpStatus.CREATED
+        );
     }
 
-    @PutMapping(path="/ingredients/{id}")
+
+    @Operation(summary = "Pobierz składnik po ID",
+            description = "Zwraca pojedynczy składnik na podstawie ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Składnik znaleziony"),
+            @ApiResponse(responseCode = "404", description = "Składnik nie istnieje"),
+            @ApiResponse(responseCode = "400", description = "Niepoprawne ID")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<IngredientDto> getIngredientById(@PathVariable Integer id) {
+
+        if (id <= 0) {
+            log.warn("GET /api/v1/ingredients/{} - niepoprawne ID", id);
+            throw new IllegalArgumentException("ID must be positive");
+        }
+
+        IngredientEntity ingredient = ingredientService.readOne(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Ingredient id=" + id + " not found"));
+
+        log.info("GET /api/v1/ingredients/{} - sukces", id);
+
+        return ResponseEntity.ok(ingredientMapper.mapTo(ingredient));
+    }
+
+
+    @Operation(summary = "Aktualizuj składnik",
+            description = "Aktualizuje cały składnik (PUT)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Składnik zaktualizowany"),
+            @ApiResponse(responseCode = "404", description = "Składnik nie istnieje"),
+            @ApiResponse(responseCode = "400", description = "Niepoprawne dane")
+    })
+    @PutMapping("/{id}")
     public ResponseEntity<IngredientDto> updateIngredient(
-            @PathVariable("id") Integer id, @RequestBody IngredientDto ingredient){
-        if(!ingredientService.exists(id)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            @PathVariable Integer id,
+            @RequestBody IngredientDto ingredientDto) {
+
+        if (id <= 0) {
+            log.warn("PUT /api/v1/ingredients/{} - niepoprawne ID", id);
+            throw new IllegalArgumentException("ID must be positive");
         }
-        ingredient.setId(id);
-        IngredientEntity updatedIngredient = ingredientMapper.mapFrom(ingredient);
-        IngredientEntity updatedIng = ingredientService.save(updatedIngredient);
-        return new ResponseEntity<>(ingredientMapper.mapTo(updatedIng), HttpStatus.OK);
+
+        if (!ingredientService.exists(id)) {
+            throw new ResourceNotFoundException("Ingredient id=" + id + " not found");
+        }
+
+        if (ingredientDto.getName() == null || ingredientDto.getName().isBlank()) {
+            log.warn("PUT /api/v1/ingredients/{} - brak nazwy", id);
+            throw new IllegalArgumentException("Name cannot be null or blank");
+        }
+
+        ingredientDto.setId(id);
+        IngredientEntity savedIngredient =
+                ingredientService.save(ingredientMapper.mapFrom(ingredientDto));
+
+        log.info("PUT /api/v1/ingredients/{} - sukces", id);
+
+        return ResponseEntity.ok(ingredientMapper.mapTo(savedIngredient));
     }
-    @PatchMapping(path="/ingredients/{id}")
+
+
+    @Operation(summary = "Częściowa aktualizacja składnika",
+            description = "Aktualizuje wybrane pola składnika (PATCH)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Składnik zaktualizowany"),
+            @ApiResponse(responseCode = "404", description = "Składnik nie istnieje"),
+            @ApiResponse(responseCode = "400", description = "Niepoprawne dane")
+    })
+    @PatchMapping("/{id}")
     public ResponseEntity<IngredientDto> patchIngredient(
-            @PathVariable("id") Integer id, @RequestBody IngredientDto ingredient){
-        if(!ingredientService.exists(id)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            @PathVariable Integer id,
+            @RequestBody IngredientDto ingredientDto) {
+
+        if (id <= 0) {
+            log.warn("PATCH /api/v1/ingredients/{} - niepoprawne ID", id);
+            throw new IllegalArgumentException("ID must be positive");
         }
-        IngredientEntity updatedIngredient = ingredientMapper.mapFrom(ingredient);
-        IngredientEntity updatedIng = ingredientService.partialUpdate(id,updatedIngredient);
-        return new ResponseEntity<>(ingredientMapper.mapTo(updatedIng), HttpStatus.OK);
+
+        if (!ingredientService.exists(id)) {
+            throw new ResourceNotFoundException("Ingredient id=" + id + " not found");
+        }
+
+        IngredientEntity updatedIngredient =
+                ingredientService.partialUpdate(id, ingredientMapper.mapFrom(ingredientDto));
+
+        log.info("PATCH /api/v1/ingredients/{} - sukces", id);
+
+        return ResponseEntity.ok(ingredientMapper.mapTo(updatedIngredient));
     }
 
-    @DeleteMapping(path="/ingredients/{id}")
-    public ResponseEntity<Void> deleteIngredient(@PathVariable("id") Integer id){
+
+    @Operation(summary = "Usuń składnik",
+            description = "Usuwa składnik na podstawie ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Składnik usunięty"),
+            @ApiResponse(responseCode = "404", description = "Składnik nie istnieje"),
+            @ApiResponse(responseCode = "400", description = "Niepoprawne ID")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIngredient(@PathVariable Integer id) {
+
+        if (id <= 0) {
+            log.warn("DELETE /api/v1/ingredients/{} - niepoprawne ID", id);
+            throw new IllegalArgumentException("ID must be positive");
+        }
+
+        if (!ingredientService.exists(id)) {
+            throw new ResourceNotFoundException("Ingredient id=" + id + " not found");
+        }
+
         ingredientService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        log.info("DELETE /api/v1/ingredients/{} - sukces", id);
+
+        return ResponseEntity.noContent().build();
     }
-
-
 }

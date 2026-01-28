@@ -91,3 +91,8 @@ CREATE TABLE order_item_extras (
                                    PRIMARY KEY (id),
                                    CONSTRAINT fk_order_item_extra FOREIGN KEY (order_item_id) REFERENCES order_items(id) ON DELETE CASCADE
 );
+
+CREATE TABLE daily_order_counter (
+                                     order_date DATE PRIMARY KEY,
+                                     last_number INTEGER NOT NULL
+);
