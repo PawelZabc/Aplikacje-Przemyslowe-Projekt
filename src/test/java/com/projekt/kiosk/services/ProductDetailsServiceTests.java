@@ -1,14 +1,14 @@
 package com.projekt.kiosk.services;
 
-import com.projekt.kiosk.domain.*;
-import com.projekt.kiosk.dtos.ExtraDto;
-import com.projekt.kiosk.dtos.IngredientDto;
-import com.projekt.kiosk.dtos.ProductDetailsDto;
+import com.projekt.kiosk.entities.*;
+import com.projekt.kiosk.dto.ExtraDto;
+import com.projekt.kiosk.dto.IngredientDto;
+import com.projekt.kiosk.dto.ProductDetailsDto;
 import com.projekt.kiosk.exceptions.ResourceNotFoundException;
 import com.projekt.kiosk.repositories.ProductExtraRepository;
 import com.projekt.kiosk.repositories.ProductIngredientRepository;
 import com.projekt.kiosk.repositories.ProductRepository;
-import com.projekt.kiosk.services.inpl.ProductDetailsService;
+import com.projekt.kiosk.services.impl.ProductDetailsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,7 +36,7 @@ class ProductDetailsServiceTests {
     private ProductExtraRepository productExtraRepository;
 
     @InjectMocks
-    private ProductDetailsService productDetailsService;
+    private ProductDetailsServiceImpl productDetailsService;
 
     @Test
     void getProductDetails_returnsProductWithIngredientsAndExtras() {

@@ -1,7 +1,7 @@
 package com.projekt.kiosk.mappers;
 
-import com.projekt.kiosk.domain.IngredientEntity;
-import com.projekt.kiosk.dtos.IngredientDto;
+import com.projekt.kiosk.entities.IngredientEntity;
+import com.projekt.kiosk.dto.IngredientDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

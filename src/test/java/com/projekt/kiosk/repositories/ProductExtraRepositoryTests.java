@@ -1,9 +1,9 @@
 package com.projekt.kiosk.repositories;
 
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.domain.ProductEntity;
-import com.projekt.kiosk.domain.ProductExtraEntity;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.entities.ProductEntity;
+import com.projekt.kiosk.entities.ProductExtraEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

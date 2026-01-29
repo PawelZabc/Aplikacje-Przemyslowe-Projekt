@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice(basePackages = "com.projekt.kiosk.controllers.api")
+@RestControllerAdvice(basePackages = "com.projekt.kiosk")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)

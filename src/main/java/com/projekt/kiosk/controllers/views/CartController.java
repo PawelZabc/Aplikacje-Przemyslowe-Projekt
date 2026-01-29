@@ -1,19 +1,18 @@
 package com.projekt.kiosk.controllers.views;
 
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.domain.IngredientEntity;
-import com.projekt.kiosk.domain.ProductEntity;
-import com.projekt.kiosk.dtos.ExtraDto;
-import com.projekt.kiosk.dtos.IngredientDto;
-import com.projekt.kiosk.dtos.ProductDetailsDto;
-import com.projekt.kiosk.dtos.cart.Cart;
-import com.projekt.kiosk.dtos.cart.CartItemDto;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.entities.IngredientEntity;
+import com.projekt.kiosk.entities.ProductEntity;
+import com.projekt.kiosk.dto.ExtraDto;
+import com.projekt.kiosk.dto.IngredientDto;
+import com.projekt.kiosk.dto.ProductDetailsDto;
+import com.projekt.kiosk.dto.cart.Cart;
+import com.projekt.kiosk.dto.cart.CartItemDto;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.repositories.ExtraRepository;
 import com.projekt.kiosk.repositories.IngredientRepository;
 import com.projekt.kiosk.repositories.ProductRepository;
-import com.projekt.kiosk.services.ProductService;
-import com.projekt.kiosk.services.inpl.ProductDetailsService;
+import com.projekt.kiosk.services.impl.ProductDetailsServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +27,13 @@ public class CartController {
     ProductRepository productRepository;
     IngredientRepository ingredientRepository;
     ExtraRepository extraRepository;
-    ProductDetailsService productDetailsService;
+    ProductDetailsServiceImpl productDetailsService;
     private Mapper<IngredientEntity, IngredientDto> ingredientMapper;
     private Mapper<ExtraEntity, ExtraDto> extraMapper;
 
 
     public CartController(ProductRepository productRepository, IngredientRepository ingredientRepository, ExtraRepository extraRepository
-            ,ProductDetailsService productService, Mapper<IngredientEntity, IngredientDto> ingredientMapper ,Mapper<ExtraEntity, ExtraDto> extraMapper ) {
+            , ProductDetailsServiceImpl productService, Mapper<IngredientEntity, IngredientDto> ingredientMapper , Mapper<ExtraEntity, ExtraDto> extraMapper ) {
         this.productRepository = productRepository;
         this.ingredientRepository = ingredientRepository;
         this.extraRepository = extraRepository;

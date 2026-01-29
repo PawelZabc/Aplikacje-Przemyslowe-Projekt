@@ -1,6 +1,6 @@
 package com.projekt.kiosk.repositories;
 
-import com.projekt.kiosk.domain.ProductExtraEntity;
+import com.projekt.kiosk.entities.ProductExtraEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

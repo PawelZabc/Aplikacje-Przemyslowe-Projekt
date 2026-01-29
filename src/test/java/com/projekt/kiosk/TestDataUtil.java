@@ -1,8 +1,8 @@
 package com.projekt.kiosk;
 
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.domain.IngredientEntity;
-import com.projekt.kiosk.domain.ProductEntity;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.entities.IngredientEntity;
+import com.projekt.kiosk.entities.ProductEntity;
 
 public final class TestDataUtil {
     public static IngredientEntity createTestIngredientA() {

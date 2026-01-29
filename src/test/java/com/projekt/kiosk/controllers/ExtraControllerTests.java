@@ -1,8 +1,9 @@
 package com.projekt.kiosk.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.dtos.ExtraDto;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.dto.ExtraDto;
 import com.projekt.kiosk.services.ExtraService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +14,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ExtraControllerTests {
 
-    private final MockMvc mockMvc;
-    private final ObjectMapper objectMapper;
-    private final ExtraService extraService;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
-    public ExtraControllerTests(MockMvc mockMvc, ExtraService extraService) {
-        this.mockMvc = mockMvc;
-        this.extraService = extraService;
-        this.objectMapper = new ObjectMapper();
-    }
+    private ExtraService extraService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void testCreateExtraCorrectCode() throws Exception {
@@ -38,7 +37,7 @@ public class ExtraControllerTests {
                 .priceCents(150)
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/extras")
+        mockMvc.perform(MockMvcRequestBuilders.post("api/v1/extras")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(extra)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());

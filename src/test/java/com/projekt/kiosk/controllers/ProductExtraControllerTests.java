@@ -1,9 +1,9 @@
 package com.projekt.kiosk.controllers;
 
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.domain.ProductEntity;
-import com.projekt.kiosk.dtos.ProductExtraDto;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.entities.ProductEntity;
+import com.projekt.kiosk.dto.ProductExtraDto;
 import com.projekt.kiosk.repositories.ExtraRepository;
 import com.projekt.kiosk.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;

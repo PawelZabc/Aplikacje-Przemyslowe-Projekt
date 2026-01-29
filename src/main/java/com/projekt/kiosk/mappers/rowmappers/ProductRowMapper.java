@@ -1,6 +1,6 @@
 package com.projekt.kiosk.mappers.rowmappers;
 
-import com.projekt.kiosk.domain.ProductEntity;
+import com.projekt.kiosk.entities.ProductEntity;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

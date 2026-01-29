@@ -1,7 +1,7 @@
 package com.projekt.kiosk.repositories;
 
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.ExtraEntity;
+import com.projekt.kiosk.entities.ExtraEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

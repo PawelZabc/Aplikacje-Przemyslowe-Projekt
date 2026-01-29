@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj dodatek</title>
+</head>
+<body>
+
+<h1>Dodaj dodatek</h1>
+
+<form th:action="@{/admin/extras}" method="post">
+    <label>Nazwa:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Cena (w groszach):</label><br>
+    <input type="number" name="priceCents" required><br><br>
+
+    <button type="submit">Zapisz</button>
+</form>
+
+<br>
+<a th:href="@{/admin}">⬅ Powrót</a>
+
+</body>
+</html>

@@ -1,13 +1,13 @@
 package com.projekt.kiosk.dao;
 
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.domain.IngredientEntity;
-import com.projekt.kiosk.domain.ProductEntity;
-import com.projekt.kiosk.domain.order.OrderEntity;
-import com.projekt.kiosk.dtos.ExtraDto;
-import com.projekt.kiosk.dtos.IngredientDto;
-import com.projekt.kiosk.dtos.cart.Cart;
-import com.projekt.kiosk.dtos.cart.CartItemDto;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.entities.IngredientEntity;
+import com.projekt.kiosk.entities.ProductEntity;
+import com.projekt.kiosk.entities.order.OrderEntity;
+import com.projekt.kiosk.dto.ExtraDto;
+import com.projekt.kiosk.dto.IngredientDto;
+import com.projekt.kiosk.dto.cart.Cart;
+import com.projekt.kiosk.dto.cart.CartItemDto;
 import com.projekt.kiosk.mappers.rowmappers.ExtraRowMapper;
 import com.projekt.kiosk.mappers.rowmappers.IngredientRowMapper;
 import com.projekt.kiosk.mappers.rowmappers.ProductRowMapper;

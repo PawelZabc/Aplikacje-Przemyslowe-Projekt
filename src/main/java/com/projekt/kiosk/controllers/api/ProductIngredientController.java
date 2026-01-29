@@ -1,9 +1,8 @@
 package com.projekt.kiosk.controllers.api;
 
-import com.projekt.kiosk.domain.ProductIngredientEntity;
-import com.projekt.kiosk.dtos.ProductIngredientDto;
-import com.projekt.kiosk.exceptions.ResourceNotFoundException;
-import com.projekt.kiosk.services.inpl.ProductIngredientService;
+import com.projekt.kiosk.entities.ProductIngredientEntity;
+import com.projekt.kiosk.dto.ProductIngredientDto;
+import com.projekt.kiosk.services.impl.ProductIngredientServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,9 +18,9 @@ import java.util.List;
 @RequestMapping("/api/v1/products/{productId}/ingredients")
 public class ProductIngredientController {
 
-    private final ProductIngredientService service;
+    private final ProductIngredientServiceImpl service;
 
-    public ProductIngredientController(ProductIngredientService service) {
+    public ProductIngredientController(ProductIngredientServiceImpl service) {
         this.service = service;
     }
 

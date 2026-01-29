@@ -1,7 +1,7 @@
 package com.projekt.kiosk.controllers.api;
 
-import com.projekt.kiosk.domain.ExtraEntity;
-import com.projekt.kiosk.dtos.ExtraDto;
+import com.projekt.kiosk.entities.ExtraEntity;
+import com.projekt.kiosk.dto.ExtraDto;
 import com.projekt.kiosk.exceptions.ResourceNotFoundException;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.services.ExtraService;

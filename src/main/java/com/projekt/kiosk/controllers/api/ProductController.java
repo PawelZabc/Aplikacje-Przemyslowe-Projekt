@@ -1,12 +1,12 @@
 package com.projekt.kiosk.controllers.api;
 
-import com.projekt.kiosk.domain.ProductEntity;
-import com.projekt.kiosk.dtos.ProductDetailsDto;
-import com.projekt.kiosk.dtos.ProductDto;
+import com.projekt.kiosk.entities.ProductEntity;
+import com.projekt.kiosk.dto.ProductDetailsDto;
+import com.projekt.kiosk.dto.ProductDto;
 import com.projekt.kiosk.exceptions.ResourceNotFoundException;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.services.ProductService;
-import com.projekt.kiosk.services.inpl.ProductDetailsService;
+import com.projekt.kiosk.services.impl.ProductDetailsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,12 +23,12 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductDetailsService productDetailsService;
+    private final ProductDetailsServiceImpl productDetailsService;
     private final Mapper<ProductEntity, ProductDto> productMapper;
 
     public ProductController(ProductService productService,
                              Mapper<ProductEntity, ProductDto> productMapper,
-                             ProductDetailsService productDetailsService) {
+                             ProductDetailsServiceImpl productDetailsService) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.productDetailsService = productDetailsService;

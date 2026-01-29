@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj składnik do produktu</title>
+</head>
+<body>
+
+<h1>Dodaj składnik do produktu</h1>
+
+<form th:action="@{/admin/products/{id}/ingredient(id=${productId})}" method="post">
+    <label>ID składnika:</label><br>
+    <input type="number" name="ingredientId" required><br><br>
+
+    <button type="submit">Dodaj</button>
+</form>
+
+<br>
+<a th:href="@{/admin}">⬅ Powrót</a>
+
+</body>
+</html>

@@ -1,8 +1,8 @@
 package com.projekt.kiosk.controllers.api;
 
-import com.projekt.kiosk.domain.ProductExtraEntity;
-import com.projekt.kiosk.dtos.ProductExtraDto;
-import com.projekt.kiosk.services.inpl.ProductExtraService;
+import com.projekt.kiosk.entities.ProductExtraEntity;
+import com.projekt.kiosk.dto.ProductExtraDto;
+import com.projekt.kiosk.services.impl.ProductExtraServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,9 +18,9 @@ import java.util.List;
 @RequestMapping("/api/v1/products/{productId}/extras")
 public class ProductExtraController {
 
-    private final ProductExtraService service;
+    private final ProductExtraServiceImpl service;
 
-    public ProductExtraController(ProductExtraService service) {
+    public ProductExtraController(ProductExtraServiceImpl service) {
         this.service = service;
     }
 

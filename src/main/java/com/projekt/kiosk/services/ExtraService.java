@@ -1,6 +1,6 @@
 package com.projekt.kiosk.services;
 
-import com.projekt.kiosk.domain.ExtraEntity;
+import com.projekt.kiosk.entities.ExtraEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

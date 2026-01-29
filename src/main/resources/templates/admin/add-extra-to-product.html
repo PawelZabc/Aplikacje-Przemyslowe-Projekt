@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj dodatek do produktu</title>
+</head>
+<body>
+
+<h1>Dodaj dodatek do produktu</h1>
+
+<form th:action="@{/admin/products/{id}/extra(id=${productId})}" method="post">
+    <label>ID dodatku:</label><br>
+    <input type="number" name="extraId" required><br><br>
+
+    <button type="submit">Dodaj</button>
+</form>
+
+<br>
+<a th:href="@{/admin}">⬅ Powrót</a>
+
+</body>
+</html>

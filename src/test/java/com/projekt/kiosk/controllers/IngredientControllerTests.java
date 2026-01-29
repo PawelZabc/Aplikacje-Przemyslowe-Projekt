@@ -2,7 +2,7 @@ package com.projekt.kiosk.controllers;
 
 
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.IngredientEntity;
+import com.projekt.kiosk.entities.IngredientEntity;
 import com.projekt.kiosk.services.IngredientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

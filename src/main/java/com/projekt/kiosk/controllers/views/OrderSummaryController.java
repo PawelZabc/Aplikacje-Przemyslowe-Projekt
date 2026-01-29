@@ -1,6 +1,6 @@
 package com.projekt.kiosk.controllers.views;
 
-import com.projekt.kiosk.domain.order.OrderEntity;
+import com.projekt.kiosk.entities.order.OrderEntity;
 import com.projekt.kiosk.repositories.order.OrderRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

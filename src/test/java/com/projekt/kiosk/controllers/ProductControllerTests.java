@@ -1,8 +1,8 @@
 package com.projekt.kiosk.controllers;
 
 import com.projekt.kiosk.TestDataUtil;
-import com.projekt.kiosk.domain.ProductEntity;
-import com.projekt.kiosk.dtos.ProductDto;
+import com.projekt.kiosk.entities.ProductEntity;
+import com.projekt.kiosk.dto.ProductDto;
 import com.projekt.kiosk.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

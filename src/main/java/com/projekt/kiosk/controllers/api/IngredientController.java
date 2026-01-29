@@ -1,7 +1,7 @@
 package com.projekt.kiosk.controllers.api;
 
-import com.projekt.kiosk.domain.IngredientEntity;
-import com.projekt.kiosk.dtos.IngredientDto;
+import com.projekt.kiosk.entities.IngredientEntity;
+import com.projekt.kiosk.dto.IngredientDto;
 import com.projekt.kiosk.exceptions.ResourceNotFoundException;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.services.IngredientService;
