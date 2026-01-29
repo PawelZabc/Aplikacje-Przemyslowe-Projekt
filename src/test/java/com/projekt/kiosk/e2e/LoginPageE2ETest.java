@@ -51,7 +51,7 @@ public class LoginPageE2ETest {
     @Test
     @DisplayName("Strona logowania dla ADMINA powinna się poprawnie załadować")
     void loginPage_shouldLoadCorrectly() {
-        driver.get(getBaseUrl() + "admin/login");
+        driver.get(getBaseUrl() + "/login");
 
         WebElement passwordField = driver.findElement(
                 By.cssSelector("input[name='password'], input[type='password']"));
@@ -65,7 +65,7 @@ public class LoginPageE2ETest {
     @Test
     @DisplayName("Nieprawidłowe logowanie do panelu admina powinno przekierować do strony logowania")
     void invalidLogin_shouldShowError() {
-        driver.get(getBaseUrl() + "/admin/login");
+        driver.get(getBaseUrl() + "/login");
 
         WebElement passwordField = driver.findElement(
                 By.cssSelector("input[name='password'], input[type='password']"));
@@ -75,7 +75,7 @@ public class LoginPageE2ETest {
                 By.cssSelector("button[type='submit'], input[type='submit']"));
         submitButton.click();
 
-        wait.until(ExpectedConditions.urlContains("admin/login"));
+        wait.until(ExpectedConditions.urlContains("/login"));
     }
 
     @Test
