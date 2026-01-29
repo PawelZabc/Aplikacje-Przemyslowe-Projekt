@@ -37,7 +37,7 @@ public class ExtraControllerTests {
                 .priceCents(150)
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("api/v1/extras")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/extras")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(extra)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
