@@ -6,7 +6,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode
 @Entity
 @Table(name = "products")
@@ -14,11 +16,6 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @SequenceGenerator(
-//            name = "product_seq",
-//            sequenceName = "product_seq",
-//            allocationSize = 1
-//    )
     private Integer id;
 
     @Column(nullable = false, length = 50)
@@ -26,4 +23,8 @@ public class ProductEntity {
 
     @Column(name = "price_cents", nullable = false)
     private Integer priceCents;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = true)
+    private CategoryEntity category;
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin panel</title>
+</head>
+<body>
+
+<h1>Admin panel</h1>
+
+<nav>
+    <a th:href="@{/admin/products}">&plus; Dodaj produkt</a> |
+    <a th:href="@{/admin/ingredients}">&plus; Dodaj składnik</a> |
+    <a th:href="@{/admin/extras}">&plus; Dodaj dodatek</a> |
+    <a th:href="@{/admin/categories}">&plus; Dodaj kategorie</a> |
+    <a th:href="@{/admin/stats}">Statystyki</a> |
+    <a th:href="@{/}"> Strona główna</a>
+</nav>
+
+<hr>
+
+<h2>Produkty</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nazwa</th>
+        <th>Cena (gr)</th>
+        <th>Kategoria</th>
+        <th>Akcje</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.priceCents}"></td>
+        <td th:text="${product.category.name}"></td>
+        <td>
+            <a th:href="@{/admin/products/{id}/ingredient(id=${product.id})}">
+                &plus; Składnik
+            </a>
+            |
+            <a th:href="@{/admin/products/{id}/extra(id=${product.id})}">
+                &plus; Dodatek
+            </a>
+            |
+            <a th:href="@{/admin/products/{id}/edit(id=${product.id})}">
+                Edytuj
+            </a>
+        </td>
+    </tr>
+</table>
+
+<hr>
+
+<h2>Dodatki</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nazwa</th>
+        <th>Cena (gr)</th>
+<!--        <th>Akcje</th>-->
+    </tr>
+    <tr th:each="extra : ${extras}">
+        <td th:text="${extra.id}"></td>
+        <td th:text="${extra.name}"></td>
+        <td th:text="${extra.priceCents}"></td>
+    </tr>
+</table>
+
+<h2>Składniki</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nazwa</th>
+    </tr>
+    <tr th:each="ingredient : ${ingredients}">
+        <td th:text="${ingredient.id}"></td>
+        <td th:text="${ingredient.name}"></td>
+    </tr>
+</table>
+
+<h2>Kategorie</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nazwa</th>
+    </tr>
+    <tr th:each="category : ${categories}">
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.name}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

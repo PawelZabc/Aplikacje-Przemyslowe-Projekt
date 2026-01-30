@@ -1,4 +1,4 @@
-package com.projekt.kiosk.controllers;
+package com.projekt.kiosk.controllers.api;
 
 import com.projekt.kiosk.TestDataUtil;
 import com.projekt.kiosk.entities.ExtraEntity;
@@ -15,7 +15,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,8 +32,7 @@ public class ProductExtraControllerTests {
     public ProductExtraControllerTests(
             MockMvc mockMvc,
             ProductRepository productRepository,
-            ExtraRepository extraRepository
-    ) {
+            ExtraRepository extraRepository) {
         this.mockMvc = mockMvc;
         this.productRepository = productRepository;
         this.extraRepository = extraRepository;
@@ -49,10 +49,10 @@ public class ProductExtraControllerTests {
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/products/" + product.getId() + "/extras")
+                .post("/api/v1/products/" + product.getId() + "/extras")
+                .with(user("admin").roles("ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto))
-        ).andExpect(MockMvcResultMatchers.status().isCreated());
+                .content(objectMapper.writeValueAsString(dto))).andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
@@ -60,8 +60,7 @@ public class ProductExtraControllerTests {
         ProductEntity product = productRepository.save(TestDataUtil.createTestProductA());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/products/" + product.getId() + "/extras")
-        ).andExpect(MockMvcResultMatchers.status().isOk());
+                .get("/api/v1/products/" + product.getId() + "/extras"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
-

@@ -5,18 +5,15 @@ import com.projekt.kiosk.entities.IngredientEntity;
 import com.projekt.kiosk.entities.ProductEntity;
 import com.projekt.kiosk.entities.ProductIngredientEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+
+@DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ProductIngredientRepositoryTests {
 
@@ -28,8 +25,7 @@ public class ProductIngredientRepositoryTests {
     public ProductIngredientRepositoryTests(
             ProductIngredientRepository repository,
             ProductRepository productRepository,
-            IngredientRepository ingredientRepository
-    ) {
+            IngredientRepository ingredientRepository) {
         this.repository = repository;
         this.productRepository = productRepository;
         this.ingredientRepository = ingredientRepository;

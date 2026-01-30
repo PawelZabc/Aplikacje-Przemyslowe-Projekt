@@ -13,7 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("/api/v1/extras")
@@ -23,7 +26,7 @@ public class ExtraController {
     private final Mapper<ExtraEntity, ExtraDto> extraMapper;
 
     public ExtraController(ExtraService extraService,
-                           Mapper<ExtraEntity, ExtraDto> extraMapper) {
+            Mapper<ExtraEntity, ExtraDto> extraMapper) {
         this.extraService = extraService;
         this.extraMapper = extraMapper;
     }
@@ -32,11 +35,14 @@ public class ExtraController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Lista dodatków zwrócona poprawnie")
     })
+
     @GetMapping
-    public List<ExtraEntity> getExtras() {
-        List<ExtraEntity> extras = extraService.readAll();
+    public ResponseEntity<List<ExtraDto>> getExtras() {
+        List<ExtraDto> extras = extraService.readAll().stream()
+                .map(extraMapper::mapTo)
+                .toList();
         log.info("GET /api/v1/extra - sukces, liczba dodatków: {}", extras.size());
-        return extras;
+        return ResponseEntity.ok(extras);
     }
 
     @Operation(summary = "Utwórz nowy dodatek", description = "Tworzy nowy dodatek na podstawie przekazanego DTO")
@@ -45,12 +51,7 @@ public class ExtraController {
             @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe")
     })
     @PostMapping
-    public ResponseEntity<ExtraDto> createExtra(@RequestBody ExtraDto extraDto) {
-        if (extraDto.getName() == null || extraDto.getName().isBlank()) {
-            log.warn("POST /api/v1/extra - niepoprawne dane: brak nazwy");
-            throw new IllegalArgumentException("Name cannot be null or blank");
-        }
-
+    public ResponseEntity<ExtraDto> createExtra(@Valid @RequestBody ExtraDto extraDto) {
         ExtraEntity extraEntity = extraMapper.mapFrom(extraDto);
         ExtraEntity createdExtra = extraService.save(extraEntity);
         log.info("POST /api/v1/extra - sukces, utworzono dodatek id={}", createdExtra.getId());
@@ -85,7 +86,7 @@ public class ExtraController {
     @PutMapping("/{id}")
     public ResponseEntity<ExtraDto> updateExtra(
             @PathVariable Integer id,
-            @RequestBody ExtraDto extraDto) {
+            @Valid @RequestBody ExtraDto extraDto) {
 
         if (id <= 0) {
             log.warn("PUT /api/v1/extra/{} - niepoprawne ID", id);
@@ -94,11 +95,6 @@ public class ExtraController {
 
         if (!extraService.exists(id)) {
             throw new ResourceNotFoundException("Extra id=" + id + " not found");
-        }
-
-        if (extraDto.getName() == null || extraDto.getName().isBlank()) {
-            log.warn("PUT /api/v1/extra/{} - niepoprawne dane: brak nazwy", id);
-            throw new IllegalArgumentException("Name cannot be null or blank");
         }
 
         extraDto.setId(id);

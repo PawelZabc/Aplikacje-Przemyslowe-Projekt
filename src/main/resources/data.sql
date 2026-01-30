@@ -1,4 +1,13 @@
 -- =========================
+-- CATEGORIES
+-- =========================
+INSERT INTO categories (name) VALUES
+                                  ('Burgers'),
+                                  ('Vegetarian'),
+                                  ('Sides'),
+                                  ('Drinks');
+
+-- =========================
 -- INGREDIENTS
 -- =========================
 INSERT INTO ingredients (name) VALUES
@@ -24,11 +33,14 @@ INSERT INTO extras (name, price_cents) VALUES
 -- =========================
 -- PRODUCTS
 -- =========================
-INSERT INTO products (name, price_cents) VALUES
-                                             ('Classic Burger', 1500),
-                                             ('Cheeseburger', 1600),
-                                             ('Bacon Burger', 1800),
-                                             ('Veggie Burger', 1400);
+-- category_id:
+-- 1 = Burgers
+-- 2 = Vegetarian
+INSERT INTO products (name, price_cents, category_id) VALUES
+                                                          ('Classic Burger', 1500, 1),
+                                                          ('Cheeseburger', 1600, 1),
+                                                          ('Bacon Burger', 1800, 1),
+                                                          ('Veggie Burger', 1400, 2);
 
 -- =========================
 -- PRODUCT_INGREDIENTS

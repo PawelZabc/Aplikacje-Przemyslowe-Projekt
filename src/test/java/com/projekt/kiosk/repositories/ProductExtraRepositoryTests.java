@@ -6,14 +6,15 @@ import com.projekt.kiosk.entities.ProductEntity;
 import com.projekt.kiosk.entities.ProductExtraEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@SpringBootTest
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+
+@DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ProductExtraRepositoryTests {
 
@@ -25,8 +26,7 @@ public class ProductExtraRepositoryTests {
     public ProductExtraRepositoryTests(
             ProductExtraRepository repository,
             ProductRepository productRepository,
-            ExtraRepository extraRepository
-    ) {
+            ExtraRepository extraRepository) {
         this.repository = repository;
         this.productRepository = productRepository;
         this.extraRepository = extraRepository;

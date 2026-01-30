@@ -9,23 +9,12 @@ DROP TABLE IF EXISTS extras;
 DROP TABLE IF EXISTS ingredients;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS daily_order_counter;
+DROP TABLE IF EXISTS categories;
 
--- DROP SEQUENCE IF EXISTS ingredient_seq;
--- DROP SEQUENCE IF EXISTS product_seq;
--- DROP SEQUENCE IF EXISTS extra_seq;
--- DROP SEQUENCE IF EXISTS order_seq;
--- DROP SEQUENCE IF EXISTS order_item_seq;
--- DROP SEQUENCE IF EXISTS order_item_ingredient_seq;
--- DROP SEQUENCE IF EXISTS order_item_extra_seq;
-
--- CREATE SEQUENCE ingredient_seq START WITH 10 INCREMENT BY 1;
--- CREATE SEQUENCE product_seq START WITH 10 INCREMENT BY 1;
--- CREATE SEQUENCE extra_seq START WITH 10 INCREMENT BY 1;
--- CREATE SEQUENCE order_seq START WITH 10 INCREMENT BY 1;
--- CREATE SEQUENCE order_item_seq START WITH 10 INCREMENT BY 1;
--- CREATE SEQUENCE order_item_ingredient_seq START WITH 10 INCREMENT BY 1;
--- CREATE SEQUENCE order_item_extra_seq START WITH 10 INCREMENT BY 1;
-
+CREATE TABLE categories (
+                             id SERIAL PRIMARY KEY,
+                             name VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE ingredients (
                              id SERIAL PRIMARY KEY,
@@ -41,7 +30,8 @@ CREATE TABLE extras (
 CREATE TABLE products (
                           id SERIAL PRIMARY KEY,
                           name VARCHAR(50) NOT NULL,
-                          price_cents INTEGER NOT NULL CHECK (price_cents >= 0)
+                          price_cents INTEGER NOT NULL CHECK (price_cents >= 0),
+                          category_id INTEGER REFERENCES categories(id)
 );
 
 CREATE TABLE product_ingredients (
@@ -61,7 +51,9 @@ CREATE TABLE orders (
                         id SERIAL PRIMARY KEY,
                         order_number VARCHAR(20) NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                        total_price_cents INTEGER NOT NULL CHECK (total_price_cents >= 0)
+                        total_price_cents INTEGER NOT NULL CHECK (total_price_cents >= 0),
+                        order_type VARCHAR(20) NOT NULL DEFAULT 'DINE_IN',
+                        packaging_fee_cents INTEGER NOT NULL DEFAULT 0 CHECK (packaging_fee_cents >= 0)
 );
 
 CREATE TABLE order_items (

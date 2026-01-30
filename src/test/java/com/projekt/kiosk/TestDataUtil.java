@@ -1,5 +1,6 @@
 package com.projekt.kiosk;
 
+import com.projekt.kiosk.entities.CategoryEntity;
 import com.projekt.kiosk.entities.ExtraEntity;
 import com.projekt.kiosk.entities.IngredientEntity;
 import com.projekt.kiosk.entities.ProductEntity;
@@ -50,6 +51,24 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static CategoryEntity createTestCategoryA() {
+        return CategoryEntity.builder()
+                .name("Burgers")
+                .build();
+    }
+
+    public static CategoryEntity createTestCategoryB() {
+        return CategoryEntity.builder()
+                .name("Pizzas")
+                .build();
+    }
+
+    public static CategoryEntity createTestCategoryC() {
+        return CategoryEntity.builder()
+                .name("Pastas")
+                .build();
+    }
+
     public static ProductEntity createTestProductA() {
         return ProductEntity.builder()
                 .name("Burger")
@@ -70,6 +89,7 @@ public final class TestDataUtil {
                 .priceCents(650)
                 .build();
     }
+
 
 
 }

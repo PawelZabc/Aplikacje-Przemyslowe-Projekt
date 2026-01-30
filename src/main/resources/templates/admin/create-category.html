@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj Kategorie</title>
+</head>
+<body>
+
+<h1>Dodaj Kategorie</h1>
+
+<form th:action="@{/admin/categories}" method="post">
+    <label>Nazwa:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <button type="submit">Zapisz</button>
+</form>
+
+<br>
+<a th:href="@{/admin}">⬅ Powrót</a>
+
+</body>
+</html>

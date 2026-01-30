@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edytuj produkt</title>
+</head>
+<body>
+
+<h1>Edytuj produkt</h1>
+
+<form th:action="@{/admin/products}" method="post">
+    <label>Nazwa:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Cena (w groszach):</label><br>
+    <input type="number" name="priceCents" required><br><br>
+
+    <label></label><br>
+    <input type="number" name="category_id">
+
+    <button type="submit">Zapisz</button>
+</form>
+
+<br>
+<a th:href="@{/admin}">⬅ Powrót</a>
+
+</body>
+</html>

@@ -1,17 +1,21 @@
 package com.projekt.kiosk.controllers.views;
 
+import com.projekt.kiosk.dto.CategoryDto;
+import com.projekt.kiosk.entities.CategoryEntity;
 import com.projekt.kiosk.entities.ExtraEntity;
 import com.projekt.kiosk.entities.IngredientEntity;
 import com.projekt.kiosk.entities.ProductEntity;
 import com.projekt.kiosk.dto.ExtraDto;
 import com.projekt.kiosk.dto.IngredientDto;
 import com.projekt.kiosk.dto.ProductDto;
+import com.projekt.kiosk.mappers.CategoryMapper;
 import com.projekt.kiosk.mappers.ExtraMapper;
 import com.projekt.kiosk.mappers.IngredientMapper;
 import com.projekt.kiosk.mappers.Mapper;
 import com.projekt.kiosk.services.ExtraService;
 import com.projekt.kiosk.services.IngredientService;
 import com.projekt.kiosk.services.ProductService;
+import com.projekt.kiosk.services.impl.CategoryServiceImpl;
 import com.projekt.kiosk.services.impl.ProductExtraServiceImpl;
 import com.projekt.kiosk.services.impl.ProductIngredientServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +40,9 @@ public class AdminController {
     private final Mapper<ExtraEntity, ExtraDto> extraMapper;
     private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
+    private final CategoryServiceImpl categoryService;
+    private final Mapper<CategoryEntity,CategoryDto> categoryMapper;
+
     public AdminController(ProductService productService,
                            IngredientService ingredientService,
                            ExtraService extraService,
@@ -43,7 +50,9 @@ public class AdminController {
                            ProductIngredientServiceImpl productIngredientService,
                            ProductExtraServiceImpl productExtraService,
                            ExtraMapper extraMapper,
-                           IngredientMapper ingredientMapper) {
+                           IngredientMapper ingredientMapper,
+                           CategoryServiceImpl categoryService,
+                           Mapper<CategoryEntity,CategoryDto> categoryMapper) {
         this.productService = productService;
         this.ingredientService = ingredientService;
         this.extraService = extraService;
@@ -52,7 +61,10 @@ public class AdminController {
         this.productExtraService = productExtraService;
         this.extraMapper = extraMapper;
         this.ingredientMapper = ingredientMapper;
+        this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
     }
+
 
     /* =======================
        DASHBOARD
@@ -76,6 +88,12 @@ public class AdminController {
                 .stream()
                 .map(ingredientMapper::mapTo)
                 .toList();
+        List<CategoryDto> categories = categoryService.readAll()
+                .stream()
+                .map(categoryMapper::mapTo)
+                .toList();
+        model.addAttribute("categories", categories);
+
 
         model.addAttribute("ingredients", ingredients);
         return "admin";
@@ -92,16 +110,20 @@ public class AdminController {
 
     @PostMapping("/products")
     public String createProduct(@RequestParam String name,
-                                @RequestParam Integer priceCents) {
+                                @RequestParam Integer priceCents,
+                                @RequestParam Integer categoryId) {
 
+        CategoryEntity category = categoryService.readOne(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
         ProductEntity product = new ProductEntity();
         product.setName(name);
         product.setPriceCents(priceCents);
+        product.setCategory(category);
 
         productService.save(product);
         log.info("Admin created product: {}", name);
 
-        return "redirect:/admin";
+        return "redirect:/admin/admin";
     }
 
     /* =======================
@@ -122,7 +144,7 @@ public class AdminController {
         ingredientService.save(ingredient);
         log.info("Admin created ingredient: {}", name);
 
-        return "redirect:/admin";
+        return "redirect:/admin/admin";
     }
 
     /* =======================
@@ -145,7 +167,7 @@ public class AdminController {
         extraService.save(extra);
         log.info("Admin created extra: {}", name);
 
-        return "redirect:/admin";
+        return "redirect:/admin/admin";
     }
 
     /* =======================
@@ -166,7 +188,7 @@ public class AdminController {
         productIngredientService.create(productId, ingredientId);
         log.info("Linked ingredient {} to product {}", ingredientId, productId);
 
-        return "redirect:/admin";
+        return "redirect:/admin/admin";
     }
 
     /* =======================
@@ -187,6 +209,23 @@ public class AdminController {
         productExtraService.create(productId, extraId);
         log.info("Linked extra {} to product {}", extraId, productId);
 
-        return "redirect:/admin";
+        return "redirect:/admin/admin";
+    }
+
+    @GetMapping("/categories")
+    public String createCategoryPage() {
+        return "admin/create-category"; // the Thymeleaf template for creating a category
+    }
+
+    @PostMapping("/categories")
+    public String createCategory(@RequestParam String name) {
+
+        CategoryEntity category = new CategoryEntity();
+        category.setName(name);
+
+        categoryService.save(category); // make sure you inject CategoryService
+        log.info("Admin created category: {}", name);
+
+        return "redirect:/admin/admin";
     }
 }

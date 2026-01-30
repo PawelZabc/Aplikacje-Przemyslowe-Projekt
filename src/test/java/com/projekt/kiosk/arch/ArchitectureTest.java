@@ -24,7 +24,6 @@ public class ArchitectureTest {
                 .importPackages("com.projekt.kiosk");
     }
 
-
     @Test
     @DisplayName("Serwisy powinny być w pakiecie services")
     void services_should_reside_in_services_package() {
@@ -65,7 +64,6 @@ public class ArchitectureTest {
         rule.check(importedClasses);
     }
 
-
     @Test
     @DisplayName("Repozytoria nie powinny zależeć od serwisów")
     void repositories_should_not_depend_on_services() {
@@ -75,7 +73,6 @@ public class ArchitectureTest {
 
         rule.check(importedClasses);
     }
-
 
     @Test
     @DisplayName("Klasy serwisów powinny mieć adnotację @Service")
@@ -98,5 +95,16 @@ public class ArchitectureTest {
 
         rule.check(importedClasses);
     }
-}
 
+    // TODO: Enable this rule after refactoring controllers to use Services for DTO
+    // mapping
+    // @Test
+    // @DisplayName("Kontrolery nie powinny zależeć od encji")
+    // void controllers_should_not_depend_on_entities() {
+    // ArchRule rule = noClasses()
+    // .that().resideInAPackage("..controllers..")
+    // .should().dependOnClassesThat().resideInAPackage("..entities..");
+    //
+    // rule.check(importedClasses);
+    // }
+}
