@@ -58,7 +58,6 @@ public class SalesStatsDaoTests {
 
         @Test
         public void testGetDailyStatsInRange() {
-                // Insert test orders for different days
                 jdbcTemplate.update(
                                 "INSERT INTO orders (id, order_number, created_at, total_price_cents, order_type, packaging_fee_cents) "
                                                 +

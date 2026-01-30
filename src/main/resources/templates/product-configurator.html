@@ -26,7 +26,6 @@
 
     <input type="hidden" name="productId" th:value="${product.id}"/>
 
-    <!-- Removable ingredients -->
     <div>
         <h4>Remove ingredients (optional)</h4>
         <div th:each="ing : ${product.ingredients}" class="form-check ingredient">
@@ -38,7 +37,6 @@
         </div>
     </div>
 
-    <!-- Addable extras -->
     <div>
         <h4>Add extras (optional)</h4>
         <div th:each="extra : ${product.extras}" class="form-check extra">

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
 <head>
     <title>Dodaj dodatek</title>
 </head>
 <body>
+<main layout:fragment="content">
 
 <h1>Dodaj dodatek</h1>
 
@@ -19,6 +21,6 @@
 
 <br>
 <a th:href="@{/admin}">⬅ Powrót</a>
-
+</main>
 </body>
 </html>

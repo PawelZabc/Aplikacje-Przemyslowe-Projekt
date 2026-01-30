@@ -12,8 +12,8 @@ DROP TABLE IF EXISTS daily_order_counter;
 DROP TABLE IF EXISTS categories;
 
 CREATE TABLE categories (
-                             id SERIAL PRIMARY KEY,
-                             name VARCHAR(50) NOT NULL
+                            id SERIAL PRIMARY KEY,
+                            name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE ingredients (
@@ -31,21 +31,32 @@ CREATE TABLE products (
                           id SERIAL PRIMARY KEY,
                           name VARCHAR(50) NOT NULL,
                           price_cents INTEGER NOT NULL CHECK (price_cents >= 0),
-                          category_id INTEGER REFERENCES categories(id)
+                          category_id INTEGER
+                              REFERENCES categories(id)
+                                               ON DELETE SET NULL
 );
 
 CREATE TABLE product_ingredients (
                                      id SERIAL PRIMARY KEY,
-                                     product_id INTEGER NOT NULL REFERENCES products(id),
-                                     ingredient_id INTEGER NOT NULL REFERENCES ingredients(id)
+                                     product_id INTEGER NOT NULL
+                                         REFERENCES products(id)
+                                             ON DELETE CASCADE,
+                                     ingredient_id INTEGER NOT NULL
+                                         REFERENCES ingredients(id)
+                                             ON DELETE CASCADE,
+                                     UNIQUE (product_id, ingredient_id)
 );
 
 CREATE TABLE product_extras (
                                 id SERIAL PRIMARY KEY,
-                                product_id INTEGER NOT NULL REFERENCES products(id),
-                                extra_id INTEGER NOT NULL REFERENCES extras(id)
+                                product_id INTEGER NOT NULL
+                                    REFERENCES products(id)
+                                        ON DELETE CASCADE,
+                                extra_id INTEGER NOT NULL
+                                    REFERENCES extras(id)
+                                        ON DELETE CASCADE,
+                                UNIQUE (product_id, extra_id)
 );
-
 
 CREATE TABLE orders (
                         id SERIAL PRIMARY KEY,
@@ -58,7 +69,9 @@ CREATE TABLE orders (
 
 CREATE TABLE order_items (
                              id SERIAL PRIMARY KEY,
-                             order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+                             order_id INTEGER NOT NULL
+                                 REFERENCES orders(id)
+                                     ON DELETE CASCADE,
                              product_name VARCHAR(100) NOT NULL,
                              base_price_cents INTEGER NOT NULL CHECK (base_price_cents >= 0),
                              quantity INTEGER NOT NULL CHECK (quantity > 0)
@@ -66,18 +79,22 @@ CREATE TABLE order_items (
 
 CREATE TABLE order_item_ingredients (
                                         id SERIAL PRIMARY KEY,
-                                        order_item_id INTEGER NOT NULL REFERENCES order_items(id) ON DELETE CASCADE,
+                                        order_item_id INTEGER NOT NULL
+                                            REFERENCES order_items(id)
+                                                ON DELETE CASCADE,
                                         ingredient_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE order_item_extras (
                                    id SERIAL PRIMARY KEY,
-                                   order_item_id INTEGER NOT NULL REFERENCES order_items(id) ON DELETE CASCADE,
+                                   order_item_id INTEGER NOT NULL
+                                       REFERENCES order_items(id)
+                                           ON DELETE CASCADE,
                                    extra_name VARCHAR(50) NOT NULL,
                                    price_cents INTEGER NOT NULL CHECK (price_cents >= 0)
 );
 
 CREATE TABLE daily_order_counter (
                                      order_date DATE PRIMARY KEY,
-                                     last_number INTEGER NOT NULL
+                                     last_number INTEGER NOT NULL CHECK (last_number >= 0)
 );

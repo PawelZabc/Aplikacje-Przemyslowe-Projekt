@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Admin panel</title>
-</head>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
 <body>
+<main layout:fragment="content">
 
 <h1>Admin panel</h1>
 
@@ -45,6 +44,12 @@
             <a th:href="@{/admin/products/{id}/edit(id=${product.id})}">
                 Edytuj
             </a>
+            |
+            <form th:action="@{/admin/products/{id}/delete(id=${product.id})}"
+                  method="post"
+                  style="display:inline">
+                <button type="submit">Usuń</button>
+            </form>
         </td>
     </tr>
 </table>
@@ -58,7 +63,6 @@
         <th>ID</th>
         <th>Nazwa</th>
         <th>Cena (gr)</th>
-<!--        <th>Akcje</th>-->
     </tr>
     <tr th:each="extra : ${extras}">
         <td th:text="${extra.id}"></td>
@@ -92,6 +96,6 @@
         <td th:text="${category.name}"></td>
     </tr>
 </table>
-
+</main>
 </body>
 </html>

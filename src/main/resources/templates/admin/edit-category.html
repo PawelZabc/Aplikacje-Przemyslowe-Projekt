@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <title>Edytuj kategorie</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <h3>Edytuj kategorię</h3>
+
+    <form th:action="@{/admin/categories/{id}/edit(id=${category.id})}" method="post">
+        <input type="text"
+               name="name"
+               th:value="${category.name}"
+               required/>
+
+        <button type="submit">Zapisz</button>
+    </form>
+</main>
+</body>
+</html>

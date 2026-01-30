@@ -1,5 +1,7 @@
 package com.projekt.kiosk.controllers.views;
 
+import com.projekt.kiosk.entities.order.OrderEntity;
+import com.projekt.kiosk.repositories.order.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +11,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.mockito.Mockito.when;
-
 import java.util.Optional;
 
-import com.projekt.kiosk.repositories.order.OrderRepository;
-import com.projekt.kiosk.entities.order.OrderEntity;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,6 +34,8 @@ class OrderSummaryControllerTests {
 
         mockMvc.perform(get("/order/summary/123"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("order-summary"));
+                .andExpect(MockMvcResultMatchers.view().name("order-summary"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("order"))
+                .andExpect(MockMvcResultMatchers.model().attribute("order", order));
     }
 }

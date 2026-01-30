@@ -55,9 +55,12 @@ public class SecurityConfig {
                                                 .loginProcessingUrl("/login")
                                                 .defaultSuccessUrl("/admin", true)
                                                 .permitAll())
-                                .logout(logout -> logout
-                                                .logoutUrl("/logout")
-                                                .logoutSuccessUrl("/"));
+                        .logout(logout -> logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login?logout")
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
+                        );
 
                 return http.build();
         }

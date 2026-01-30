@@ -63,4 +63,56 @@ public class ProductIngredientControllerTests {
                 .get("/api/v1/products/" + product.getId() + "/ingredients"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    public void getIngredients_throwsBadRequest_whenProductIdInvalid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/products/-1/ingredients")
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void addIngredient_throwsBadRequest_whenProductIdInvalid() throws Exception {
+        ProductIngredientDto dto = ProductIngredientDto.builder()
+                .ingredientId(1)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/products/-1/ingredients")
+                .with(user("admin").roles("ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void addIngredient_throwsBadRequest_whenIngredientIdInvalid() throws Exception {
+        ProductIngredientDto dto = ProductIngredientDto.builder()
+                .ingredientId(-1)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/products/1/ingredients")
+                .with(user("admin").roles("ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void deleteIngredient_throwsBadRequest_whenProductIdInvalid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/products/-1/ingredients/1")
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void deleteIngredient_throwsBadRequest_whenIngredientIdInvalid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/products/1/ingredients/-1")
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }

@@ -25,10 +25,10 @@
 
     <ul>
         <li th:each="ing : ${item.removedIngredients}">
-            ❌ <span th:text="${ing.ingredientName}"></span>
+            &cross; <span th:text="${ing.ingredientName}"></span>
         </li>
         <li th:each="extra : ${item.addedExtras}">
-            ➕ <span th:text="${extra.extraName}"></span>
+            &plus; <span th:text="${extra.extraName}"></span>
             (+<span th:text="${extra.priceCents / 100.0}"></span> zł)
         </li>
     </ul>

@@ -8,7 +8,7 @@ import com.projekt.kiosk.entities.ProductEntity;
 import com.projekt.kiosk.dto.ExtraDto;
 import com.projekt.kiosk.dto.IngredientDto;
 import com.projekt.kiosk.dto.ProductDto;
-import com.projekt.kiosk.mappers.CategoryMapper;
+import com.projekt.kiosk.exceptions.ResourceNotFoundException;
 import com.projekt.kiosk.mappers.ExtraMapper;
 import com.projekt.kiosk.mappers.IngredientMapper;
 import com.projekt.kiosk.mappers.Mapper;
@@ -66,9 +66,6 @@ public class AdminController {
     }
 
 
-    /* =======================
-       DASHBOARD
-       ======================= */
 
     @GetMapping
     public String adminHome(Model model) {
@@ -96,12 +93,9 @@ public class AdminController {
 
 
         model.addAttribute("ingredients", ingredients);
-        return "admin";
+        return "admin/admin";
     }
 
-    /* =======================
-       PRODUCTS
-       ======================= */
 
     @GetMapping("/products")
     public String createProductPage() {
@@ -123,7 +117,7 @@ public class AdminController {
         productService.save(product);
         log.info("Admin created product: {}", name);
 
-        return "redirect:/admin/admin";
+        return "redirect:/admin";
     }
 
     /* =======================
@@ -144,7 +138,7 @@ public class AdminController {
         ingredientService.save(ingredient);
         log.info("Admin created ingredient: {}", name);
 
-        return "redirect:/admin/admin";
+        return "redirect:/admin";
     }
 
     /* =======================
@@ -167,7 +161,7 @@ public class AdminController {
         extraService.save(extra);
         log.info("Admin created extra: {}", name);
 
-        return "redirect:/admin/admin";
+        return "redirect:/admin";
     }
 
     /* =======================
@@ -188,12 +182,9 @@ public class AdminController {
         productIngredientService.create(productId, ingredientId);
         log.info("Linked ingredient {} to product {}", ingredientId, productId);
 
-        return "redirect:/admin/admin";
+        return "redirect:/admin";
     }
 
-    /* =======================
-       LINK EXTRA → PRODUCT
-       ======================= */
 
     @GetMapping("/products/{productId}/extra")
     public String addExtraToProductPage(@PathVariable Integer productId,
@@ -209,7 +200,7 @@ public class AdminController {
         productExtraService.create(productId, extraId);
         log.info("Linked extra {} to product {}", extraId, productId);
 
-        return "redirect:/admin/admin";
+        return "redirect:/admin";
     }
 
     @GetMapping("/categories")
@@ -226,6 +217,79 @@ public class AdminController {
         categoryService.save(category); // make sure you inject CategoryService
         log.info("Admin created category: {}", name);
 
-        return "redirect:/admin/admin";
+        return "redirect:/admin";
     }
+
+    @GetMapping("/categories/{id}/edit")
+    public String editCategoryPage(@PathVariable Integer id, Model model) {
+
+        CategoryEntity category = categoryService.readOne(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+        model.addAttribute("category", categoryMapper.mapTo(category));
+        return "admin/edit-category";
+    }
+
+    @PostMapping("/categories/{id}/edit")
+    public String updateCategory(@PathVariable Integer id,
+                                 @RequestParam String name) {
+
+        CategoryEntity category = categoryService.readOne(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+        category.setName(name);
+        categoryService.save(category);
+
+        log.info("Admin updated category {}", id);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/products/{id}/edit")
+    public String editProductPage(@PathVariable Integer id, Model model) {
+
+        ProductEntity product = productService.readOne(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        List<CategoryDto> categories = categoryService.readAll()
+                .stream()
+                .map(categoryMapper::mapTo)
+                .toList();
+
+        model.addAttribute("product", productMapper.mapTo(product));
+        model.addAttribute("categories", categories);
+
+        return "admin/edit-product";
+    }
+
+    @PostMapping("/products/{id}/edit")
+    public String updateProduct(@PathVariable Integer id,
+                                @RequestParam String name,
+                                @RequestParam Integer priceCents,
+                                @RequestParam Integer categoryId) {
+
+        ProductEntity product = productService.readOne(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        CategoryEntity category = categoryService.readOne(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+
+        product.setName(name);
+        product.setPriceCents(priceCents);
+        product.setCategory(category);
+
+        productService.save(product);
+
+        log.info("Admin updated product {}", id);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/products/{id}/delete")
+    public String deleteProduct(@PathVariable Integer id) {
+        productService.delete(id);
+        log.info("Admin deleted product {}", id);
+        return "redirect:/admin";
+    }
+
+
+
 }

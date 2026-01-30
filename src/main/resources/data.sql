@@ -11,7 +11,7 @@ INSERT INTO categories (name) VALUES
 -- INGREDIENTS
 -- =========================
 INSERT INTO ingredients (name) VALUES
-                                   ('Bun'),
+                                   ('Bread'),
                                    ('Beef Patty'),
                                    ('Cheese'),
                                    ('Lettuce'),
@@ -33,9 +33,6 @@ INSERT INTO extras (name, price_cents) VALUES
 -- =========================
 -- PRODUCTS
 -- =========================
--- category_id:
--- 1 = Burgers
--- 2 = Vegetarian
 INSERT INTO products (name, price_cents, category_id) VALUES
                                                           ('Classic Burger', 1500, 1),
                                                           ('Cheeseburger', 1600, 1),
@@ -46,7 +43,6 @@ INSERT INTO products (name, price_cents, category_id) VALUES
 -- PRODUCT_INGREDIENTS
 -- =========================
 
--- Classic Burger (product_id = 1)
 INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (1, 1),
                                                                 (1, 2),
@@ -54,7 +50,6 @@ INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (1, 5),
                                                                 (1, 8);
 
--- Cheeseburger (product_id = 2)
 INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (2, 1),
                                                                 (2, 2),
@@ -62,7 +57,6 @@ INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (2, 4),
                                                                 (2, 8);
 
--- Bacon Burger (product_id = 3)
 INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (3, 1),
                                                                 (3, 2),
@@ -70,7 +64,6 @@ INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (3, 6),
                                                                 (3, 8);
 
--- Veggie Burger (product_id = 4)
 INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
                                                                 (4, 1),
                                                                 (4, 4),
@@ -82,25 +75,21 @@ INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
 -- PRODUCT_EXTRAS
 -- =========================
 
--- Classic Burger
 INSERT INTO product_extras (product_id, extra_id) VALUES
                                                       (1, 1),
                                                       (1, 3),
                                                       (1, 5);
 
--- Cheeseburger
 INSERT INTO product_extras (product_id, extra_id) VALUES
                                                       (2, 1),
                                                       (2, 2),
                                                       (2, 5);
 
--- Bacon Burger
 INSERT INTO product_extras (product_id, extra_id) VALUES
                                                       (3, 1),
                                                       (3, 2),
                                                       (3, 4);
 
--- Veggie Burger
 INSERT INTO product_extras (product_id, extra_id) VALUES
                                                       (4, 1),
                                                       (4, 3),

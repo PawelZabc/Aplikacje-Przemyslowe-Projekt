@@ -1,27 +1,37 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
 <head>
     <title>Edytuj produkt</title>
 </head>
 <body>
+<main layout:fragment="content">
 
-<h1>Edytuj produkt</h1>
+<h3>Edytuj produkt</h3>
 
-<form th:action="@{/admin/products}" method="post">
-    <label>Nazwa:</label><br>
-    <input type="text" name="name" required><br><br>
+<form th:action="@{/admin/products/{id}/edit(id=${product.id})}" method="post">
 
-    <label>Cena (w groszach):</label><br>
-    <input type="number" name="priceCents" required><br><br>
+    <input type="text"
+           name="name"
+           th:value="${product.name}"
+           required/>
 
-    <label></label><br>
-    <input type="number" name="category_id">
+    <input type="number"
+           name="priceCents"
+           th:value="${product.priceCents}"
+           required/>
+
+    <select name="categoryId" required>
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}"
+                th:selected="${product.category != null and category.id == product.category.id}">
+        </option>
+    </select>
 
     <button type="submit">Zapisz</button>
 </form>
-
-<br>
-<a th:href="@{/admin}">⬅ Powrót</a>
-
+</main>
 </body>
 </html>

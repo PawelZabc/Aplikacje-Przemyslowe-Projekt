@@ -8,9 +8,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Tests for Cart with OrderType and packaging fee calculation.
- */
+
 public class CartTests {
 
     @Test
@@ -91,7 +89,6 @@ public class CartTests {
 
         cart.addItem(item);
 
-        // Item total = base(500) + extras(150) = 650
         assertThat(cart.getSubtotalCents()).isEqualTo(650);
         assertThat(cart.getTotalPrice()).isEqualTo(650);
     }
@@ -114,8 +111,6 @@ public class CartTests {
 
         cart.addItem(item);
 
-        // Item total = (base(500) + extras(150)) * 2 = 1300
-        // Total = 1300 + packaging(100) = 1400
         assertThat(cart.getSubtotalCents()).isEqualTo(1300);
         assertThat(cart.getTotalPrice()).isEqualTo(1400);
     }

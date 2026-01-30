@@ -63,4 +63,56 @@ public class ProductExtraControllerTests {
                 .get("/api/v1/products/" + product.getId() + "/extras"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    public void getExtras_throwsBadRequest_whenProductIdInvalid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/products/-1/extras")
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void addExtra_throwsBadRequest_whenProductIdInvalid() throws Exception {
+        ProductExtraDto dto = ProductExtraDto.builder()
+                .extraId(1)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/products/-1/extras")
+                .with(user("admin").roles("ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void addExtra_throwsBadRequest_whenExtraIdInvalid() throws Exception {
+        ProductExtraDto dto = ProductExtraDto.builder()
+                .extraId(-1)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/products/1/extras")
+                .with(user("admin").roles("ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void deleteExtra_throwsBadRequest_whenProductIdInvalid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/products/-1/extras/1")
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void deleteExtra_throwsBadRequest_whenExtraIdInvalid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/products/1/extras/-1")
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }

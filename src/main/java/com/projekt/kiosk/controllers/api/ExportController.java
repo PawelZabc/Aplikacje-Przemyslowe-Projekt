@@ -51,10 +51,8 @@ public class ExportController {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter writer = new PrintWriter(out);
 
-        // CSV Header
         writer.println("Date,Order Count,Revenue (cents),Revenue (formatted)");
 
-        // CSV Data
         for (SalesStatsDto stat : stats) {
             writer.printf("%s,%d,%d,%s%n",
                     stat.getDate(),
@@ -113,7 +111,6 @@ public class ExportController {
             com.lowagie.text.pdf.PdfPTable table = new com.lowagie.text.pdf.PdfPTable(3);
             table.setWidthPercentage(100);
 
-            // Headers
             table.addCell("Date");
             table.addCell("Orders");
             table.addCell("Revenue");
@@ -130,7 +127,6 @@ public class ExportController {
                 totalRevenue += stat.getTotalRevenueCents();
             }
 
-            // Footer / Total
             com.lowagie.text.pdf.PdfPCell totalCell = new com.lowagie.text.pdf.PdfPCell(
                     new com.lowagie.text.Phrase("TOTAL"));
             table.addCell(totalCell);

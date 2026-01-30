@@ -8,10 +8,8 @@
 <h1>Menu</h1>
 
 <div th:each="entry : ${productsByCategory}">
-    <!-- Nazwa kategorii -->
     <h2 th:text="${entry.key}"></h2>
 
-    <!-- Produkty w kategorii -->
     <div th:each="product : ${entry.value}" class="card m-2 p-2">
         <h4 th:text="${product.name}"></h4>
         <p th:text="${product.priceCents / 100.0} + ' zł'"></p>
